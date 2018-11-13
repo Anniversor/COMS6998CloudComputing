@@ -16,6 +16,7 @@
     <script type="text/javascript" src="libs/apiGatewayCore/apiGatewayClient.js"></script>
     <script type="text/javascript" src="libs/apiGatewayCore/simpleHttpClient.js"></script>
     <script type="text/javascript" src="libs/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="libs/aws-sdk.min.js"></script>
     <script type="text/javascript" src="libs/apigClient.js">
         function backImage() {
             document.body.style.backgroundImage = "assets/coolboy1.jpg";
@@ -607,33 +608,56 @@
             }, 300 + (Math.random() * 20) * 100);
             }
             else{
-                let apigClient = apigClientFactory.newClient({
-                    apiKey: 'evIibukcM37KXMYY2hCCc9kon2ivumYo6m5MEwIx'
+                AWS.config.region = 'us-west-2'; // Region
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId: 'us-west-2:109259bb-ead7-438e-889d-e819546066ef',
                 });
-                let message = msg
-                let params = {
-                    "messages": [
-                        {
-                            "type": "string",
-                            "unstructured": {
-                                "id": "1",
-                                "text": message,
-                                "timestamp": "1"
+
+                AWS.config.credentials.get(function(){
+
+    // Credentials will be available when this function is called.
+                    var accessKeyId = AWS.config.credentials.accessKeyId;
+                    var secretAccessKey = AWS.config.credentials.secretAccessKey;
+                    var sessionToken = AWS.config.credentials.sessionToken;
+                    
+                    console.log(accessKeyId);
+                    console.log(secretAccessKey);
+                    let apigClient = apigClientFactory.newClient({
+                        accessKey: accessKeyId,
+                        secretKey: secretAccessKey,
+                        sessionToken: sessionToken,
+                        region: "us-west-2",
+                        apiKey: 'evIibukcM37KXMYY2hCCc9kon2ivumYo6m5MEwIx'
+                    });
+
+                    let message = msg;
+                    let params = {
+                        "messages": [
+                            {
+                                "type": "string",
+                                "unstructured": {
+                                    "id": "1",
+                                    "text": message,
+                                    "timestamp": "1"
+                                }
                             }
-                        }
-                    ]
-                };
-                apigClient.chatbotPost(null, params)
-                    .then(function (result) {
-                        setTimeout(function () {
-                            $('.message.loading').remove();
-                            $('<div class="message new"><figure class="avatar"><img src="assets/coolboy.jpeg" /></figure>' +
-                                result.data.body.messages[0].unstructured.text + '</div>').appendTo($('.mCSB_container')).addClass('new');
-                            setDate();
-                            updateScrollbar();
-                        }, 300 + (Math.random() * 20) * 100);
-                    }).catch(function (result) {
-                });
+                        ]
+                    };
+                    apigClient.chatbotPost(null, params)
+                        .then(function (result) {
+                            setTimeout(function () {
+                                $('.message.loading').remove();
+                                $('<div class="message new"><figure class="avatar"><img src="assets/coolboy.jpeg" /></figure>' +
+                                    result.data.body.messages[0].unstructured.text + '</div>').appendTo($('.mCSB_container')).addClass('new');
+                                setDate();
+                                updateScrollbar();
+                            }, 300 + (Math.random() * 20) * 100);
+                        }).catch(function (result) {
+                    });
+
+                    });
+                AWS.config.credentials.get();
+
 
             }
 
