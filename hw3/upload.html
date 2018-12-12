@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>Upload Photos</title>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("button").click(function(){
+					var data = document.querySelector('input[type=file]').files[0];
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.withCredentials = true;
+                    xhr.addEventListener("readystatechange", function () {
+                      if (this.readyState === 4) {
+                        console.log(this.responseText);
+                      }
+                    });
+                    xhr.withCredentials = false;
+                    xhr.open("PUT", "https://i9sqlgcajl.execute-api.us-west-2.amazonaws.com/test/s3?key=chatbotanniver/image/"+data.name);
+                    xhr.setRequestHeader("Content-Type", data.type);
+                    xhr.onload = function (event) {
+							$("ul").append("<li>Uploaded: " + data.name + "</li>");
+						};
+                    xhr.send(data);
+
+
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<input type="file" id="file" name="files[]" /> <!-- Include multiple to select multiple files -->
+		<button type="button">Upload</button>
+		<ul></ul>
+	</body>
+</html>
