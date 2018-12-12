@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<!-- html -->
+<html>
+<!-- head -->
+<head>
+<title>index</title>
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" /><!-- bootstrap-CSS -->
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all" /><!-- Fontawesome-CSS -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script type='text/javascript' src='js/jquery-2.2.3.min.js'></script>
+<!-- Custom Theme files -->
+<link href="css/menu.css" rel="stylesheet" type="text/css" media="all" /> <!-- menu style --> 
+<!--theme-style-->
+<link href="css/style1.css" rel="stylesheet" type="text/css" media="all" />	
+<!--//theme-style-->
+<link rel="stylesheet" type="text/css" href="css/easy-responsive-tabs.css " />
+<!--meta data-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="keywords" content="Match Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--//meta data-->
+
+<!-- nav smooth scroll -->
+<script>
+$(document).ready(function(){
+    $(".dropdown").hover(            
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
+            $(this).toggleClass('open');        
+        },
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
+            $(this).toggleClass('open');       
+        }
+    );
+});
+</script>	
+<!-- //nav smooth scroll -->			
+<!-- Calendar -->
+	<link rel="stylesheet" href="css/jquery-ui.css" />
+	<script src="js/jquery-ui.js"></script>
+		<script>
+		  $(function() {
+			$( "#datepicker" ).datepicker();
+		 });
+		</script>
+<!-- //Calendar -->			
+<link rel="stylesheet" href="css/intlTelInput.css">
+</head>
+<!-- //head -->
+<!-- body -->
+<body>
+
+	<script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="apigClient.js"></script>
+	
+	<script type="application/javascript">
+		var apigClient = apigClientFactory.newClient();
+			window.onload = function(){
+				var signup_button = document.getElementById("signup_button");
+				var signin_button = document.getElementById("signin_button");
+				if(sessionStorage.getItem("email")!=null)
+					{
+						var register_panel=document.getElementById("signup_panel");
+						register_panel.style.display="None";
+						
+						var nav_right = document.getElementById("nav_right");
+						var li = document.createElement("li");
+						li.id = "signout_button";
+						var a = document.createElement("a");
+						a.href="#";
+						a.onclick=function(){
+							sessionStorage.removeItem("email");
+							var nav = document.getElementById("nav_right"); 
+							var l = document.getElementById("signout_button");
+							nav.removeChild(l);
+							var register_panel=document.getElementById("signup_panel");
+							register_panel.style.display="block";
+						}
+						var t = document.createElement("text");  
+   	 					var txtNode = document.createTextNode("Sign Out");
+   	 					t.appendChild(txtNode);
+   	 					a.appendChild(t);
+   	 					li.appendChild(a);
+   	 					nav_right.appendChild(li);
+					}
+				else{
+					var register_panel=document.getElementById("signup_panel");
+					register_panel.style.display="block";
+				}
+	            signup_button.onclick = function(){
+	            	var name = document.getElementById("signup_name");
+	            	var gender_female = document.getElementById("signup_female");
+	            	var gender_male = document.getElementById("signup_male");
+//	           		var signup_button = document.getElementById("signup_button");
+	           		var pass = document.getElementById("signup_password");
+	           		var email = document.getElementById("signup_email");
+	        		var dob = document.getElementById("datepicker");
+	            	var gender = "Male";
+	            	
+	            	if(gender_female.checked)
+	            		gender = "Female";
+	                var str = "";
+					var body = {
+						"messages": [
+	    				{
+	      					"type": "signup",
+	      					"unstructured": {
+	        				"id": "string",
+	        				"username": email.value,
+	        				"password": pass.value,
+	        				"name": name.value,
+	        				"birth": dob.value,
+	        				"gender": gender.value,
+	        				"timestamp": "string"
+	        				}
+	      				}
+	    				]
+					};
+					apigClient.studentPost(null, body)
+					.then(function(result){
+						var res = result["data"]["Item"];
+						console.log(result);
+						if(res == "None")
+						{
+							
+						}
+						else{
+							var register_panel=document.getElementById("signup_panel");
+							register_panel.style.display="None";
+							sessionStorage.setItem("email", email.value);
+							var nav_right = document.getElementById("nav_right");
+//							<li><a href="about.html">About</a></li>
+							var li = document.createElement("li");
+							li.id = "signout_button";
+							var a = document.createElement("a");
+							a.href="#";
+							a.onclick=function(){
+								sessionStorage.removeItem("email");
+								var nav = document.getElementById("nav_right"); 
+								var l = document.getElementById("signout_button");
+								nav.removeChild(l);
+								var register_panel=document.getElementById("signup_panel");
+								register_panel.style.display="block";
+							}
+							var t = document.createElement("text");  
+   	 						var txtNode = document.createTextNode("Sign Out");
+   	 						t.appendChild(txtNode);
+   	 						a.appendChild(t);
+   	 						li.appendChild(a);
+   	 						nav_right.appendChild(li);
+						}
+							
+					}).catch( function(result){
+	    				
+					});    
+	        	}
+	            
+//---------------------------------------------------------------	            
+	            
+	            signin_button.onclick = function(){
+	            	
+	            	
+	            	var username = document.getElementById("signin_username");
+	           		var pass = document.getElementById("signin_password");
+	            
+	                var str = "";
+					var body = {
+						"messages": [
+	    				{
+	    					"type": "signin",
+	      					"unstructured": {
+	        				"id": "string",
+	        				"username": username.value,
+	        				"password": pass.value
+	        				}
+	      				}
+	    				]
+					};
+					
+					
+					apigClient.studentPost(null, body)
+					.then(function(result){
+					
+						var res = result["Item"];
+						if(res == "None")
+						{
+							
+						}
+						else{
+							
+							sessionStorage.setItem("email", username.value);
+							var nav_right = document.getElementById("nav_right");
+							var li = document.createElement("li");
+							li.id = "signout_button";
+							var a = document.createElement("a");
+							a.href="#";
+							a.onclick=function(){
+								sessionStorage.removeItem("email");
+								var nav = document.getElementById("nav_right"); 
+								var l = document.getElementById("signout_button");
+								nav.removeChild(l);
+								var register_panel=document.getElementById("signup_panel");
+								register_panel.style.display="block";
+							}
+							var t = document.createElement("text");  
+   	 						var txtNode = document.createTextNode("Sign Out");
+   	 						t.appendChild(txtNode);
+   	 						a.appendChild(t);
+   	 						li.appendChild(a);
+   	 						nav_right.appendChild(li);
+   	 						window.location.reload();
+						}
+							
+					}).catch( function(result){
+	    				console.log(result);
+					});    
+	        	}
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+	            
+//---------------------------------------------------------------------
+	     	}	
+	</script>
+
+
+<!-- header -->
+<header>
+	<!--  Navigation Start -->
+ <div class="navbar navbar-inverse-blue navbar">
+    <!--<div class="navbar navbar-inverse-blue navbar-fixed-top">-->
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="menu">
+					<div class="cd-dropdown-wrapper">
+						<a class="cd-dropdown-trigger" href="#0">Find Study Mates</a>
+						<nav class="cd-dropdown"> 
+							<a href="#0" class="cd-close">Close</a>
+							<ul class="cd-dropdown-content"> 
+								<!--<li><a href="matches.html">All Profiles</a></li>-->
+								<li class="has-children">
+									<a href="#">Computer Science</a> 
+									<ul class="cd-secondary-dropdown is-hidden">
+										<li class="go-back"><a href="#">Menu</a></li>
+												<li><a href="l_list.html">C</a></li>
+												<li><a href="l_list.html">C++</a></li>
+												<li><a href="l_list.html">Python</a></li>
+												<li><a href="l_list.html">Ruby</a></li>
+												<li><a href="l_list.html">Java</a></li> 
+												<li><a href="l_list.html">Javascript</a></li> 
+												<li><a href="l_list.html">HTML</a></li> 
+												<li><a href="l_list.html">CSS</a></li> 
+											
+									</ul> <!-- .cd-secondary-dropdown --> 
+								</li> <!-- .has-children -->
+								<li class="has-children">
+									<a href="#">Exam</a> 
+									<ul class="cd-secondary-dropdown is-hidden">
+										<li class="go-back"><a href="#">Menu</a></li>
+												<li><a href="c_list.html">Toefl</a></li>
+												<li><a href="c_list.html">GRE</a></li>  
+												<li><a href="c_list.html">SAT</a></li> 
+											 
+									</ul> <!-- .cd-secondary-dropdown --> 
+								</li> <!-- .has-children -->
+								<li class="has-children">
+									<input type="text" placeholder="input your interest" style="text-align:left;float:left;border: hidden;margin-left: 20px;"/>
+									<input type="submit" style="float: right;background-color: rgba(255,255,255,100);border: hidden;" value="Search"/>
+								</li> <!-- .has-children -->
+							</ul> <!-- .cd-dropdown-content -->
+						</nav> <!-- .cd-dropdown -->
+					</div> <!-- .cd-dropdown-wrapper -->	 
+				</div>
+           <div class="pull-right">
+          	<nav class="navbar nav_bottom" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header nav_2">
+		      <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">Menu
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		   </div> 
+		   <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+		        <ul id="nav_right" class="nav navbar-nav nav_1">
+		            <li class="active"><a href="index.html">Home</a></li>
+		            <li><a href="about.html">About</a></li>
+		            <li><a href="self_profile.html">My Profile</a></li>
+		            <li><a href="search.html">Search</a></li>
+		            <li class="dropdown">
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Search<span class="caret"></span></a>
+		              <ul class="dropdown-menu" role="menu">
+		                <div class="banner-bottom-login">
+		<div class="w3agile_banner_btom_login">
+			<form action="#" method="post">
+				<div class="w3agile__text w3agile_banner_btom_login_left">
+					<h4>I'm looking for a</h4>
+					<select id="country" onChange="change_country(this.value)" class="frm-field required">
+						<option value="null">Bride</option>
+						<option value="null">Groom</option>   
+					</select>
+				</div>
+				<div class="w3agile__text w3agile_banner_btom_login_left1">
+					<h4>Aged</h4>
+					<select id="country1" onChange="change_country(this.value)" class="frm-field required">
+						<option value="null">20</option>
+						<option value="null">21</option>   
+						<option value="null">22</option>   
+						<option value="null">23</option>   
+						<option value="null">24</option>   
+						<option value="null">25</option>  
+						<option value="null">- - -</option>   					
+					</select>
+					<span>To </span>
+					<select id="country2" onChange="change_country(this.value)" class="frm-field required">
+						<option value="null">30</option>
+						<option value="null">31</option>   
+						<option value="null">32</option>   
+						<option value="null">33</option>   
+						<option value="null">34</option>   
+						<option value="null">35</option>  
+						<option value="null">- - -</option>   					
+					</select>
+				</div>
+				<div class="w3agile__text w3agile_banner_btom_login_left2">
+					<h4>Religion</h4>
+					<select id="country3" onChange="change_country(this.value)" class="frm-field required">
+						<option value="null">Hindu</option>  
+						<option value="null">Muslim</option>   
+						<option value="null">Christian</option>   
+						<option value="null">Sikh</option>   
+						<option value="null">Jain</option>   
+						<option value="null">Buddhist</option>
+						<option value="null">No Religious Belief</option>   					
+					</select>
+				</div>
+				<div class="w3agile_banner_btom_login_left3">
+					<input type="submit" value="Search" />
+				</div>
+				<div class="clearfix"> </div>
+			</form>
+		</div>
+	</div>
+		              </ul>
+		            </li>
+		            <li class="last"><a href="contact.html">Contacts</a></li>
+		        </ul>
+		     </div><!-- /.navbar-collapse -->
+		    </nav>
+		   </div> <!-- end pull-right -->
+          <div class="clearfix"> </div>
+        </div> <!-- end container -->
+      </div> <!-- end navbar-inner -->
+    </div> <!-- end navbar-inverse-blue -->
+<!-- ============================  Navigation End ============================ -->
+</header>
+<!-- /header -->
+
+
+
+<div class="w3layouts-banner" id="home">
+<div id="signin_signup" class="container">
+	<div class="logo">
+		<h1><a class="cd-logo link link--takiri" href="index.html">Start Match Study Mates! <span><i class="fa fa-heart" aria-hidden="true"></i>Made in heaven.</span></a></h1>
+	</div>
+	<div class="clearfix"></div>
+	<div id="signup_panel" class="agileits-register">
+		<h3 stype>Register NOW!</h3>
+		<!--<form action="#" method="post">-->
+			<div class="w3_modal_body_grid w3_modal_body_grid1">
+				<span>Name:</span>
+				<input id="signup_name" type="text" name="Name" placeholder=" " required=""/>
+			</div>
+			<div class="w3_modal_body_grid">
+				<span>Gender:</span>
+				<div class="w3_gender">
+					<div class="colr ert">
+						<label class="radio"><input id="signup_male" type="radio" name="radio" checked=""><i></i>Male</label>
+					</div>
+					<div class="colr">
+						<label class="radio"><input id="signup_female" type="radio" name="radio"><i></i>Female</label>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="w3_modal_body_grid w3_modal_body_grid1">
+				<span>Date Of Birth:</span>
+				<input class="date" id="datepicker" name="Text" type="text" value="mm/dd/yyyy" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '2/08/2013';}" required="" />
+			</div>
+			
+			<div class="w3_modal_body_grid">
+				<span>Email:</span>
+				<input id="signup_email" type="email" name="Email" placeholder=" " required=""/>
+			</div>
+			<div class="w3_modal_body_grid w3_modal_body_grid1">
+				<span>Password:</span>
+				<input id="signup_password" type="password" name="Password" placeholder=" " required=""/>
+			</div>
+			<div class="w3-agree">
+				<input type="checkbox" id="c1" name="cc">
+				<label class="agileits-agree">I have read & agree to the <a href="terms.html">Terms and Conditions</a></label>
+			</div>
+			<input id="signup_button" type="submit" value="Register me" />
+			<div class="clearfix"></div>
+			<p class="w3ls-login">Already a member? <a href="#" data-toggle="modal" data-target="#myModal">Login</a></p>
+			<!--</form>-->
+		</div>
+		<!-- Modal -->
+				<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+				  <div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>		
+						<h4 class="modal-title">Login to Continue</h4>
+					  </div>
+					  <div class="modal-body">
+						<div class="login-w3ls">
+							<!--<form id="signin" action="#" method="post">-->
+							<label>User Name </label>
+							<input id="signin_username" type="text" name="User Name" placeholder="Username">
+							<label>Password</label>
+							<input id="signin_password" type="password" name="Password" placeholder="Password" >	
+							<div class="w3ls-loginr"> 
+								<input type="checkbox" id="brand" name="checkbox" value="">
+								<span> Remember me ?</span> 
+								<a href="#">Forgot password ?</a>
+							</div>
+							<div class="clearfix"> </div>
+							<input id="signin_button" type="submit" name="submit" value="Login" />
+							<div class="clearfix"> </div>
+							<div class="social-icons">
+								<ul>  
+									<li><a href="#"><span class="icons"><i class="fa fa-facebook" aria-hidden="true"></i></span><span class="text">Facebook</span></a></li> 
+									<li class="twt"><a href="#"><span class="icons"><i class="fa fa-twitter" aria-hidden="true"></i></span><span class="text">Twitter</span></a></li>  
+								</ul> 
+								<div class="clearfix"> </div>
+							</div>	
+						<!--	</form>-->
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+				<!-- //Modal -->
+	</div>
+</div>
+<!-- Find your soulmate -->
+	<div class="w3l_find-soulmate text-center">
+		<h3>Find Your Soulmate</h3>
+			<div class="container">
+				<a class="scroll" href="#home">
+					<div class="col-md-3 w3_soulgrid">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						<h3>Sign Up</h3>
+						<p>Signup for free and Upload your profile</p>
+					</div>
+				</a>
+				<a class="scroll" href="#home">
+					<div class="col-md-3 w3_soulgrid">
+						<i class="fa fa-search" aria-hidden="true"></i>
+						<h3>Search</h3>
+						<p>Search for your right partner</p>
+					</div>
+				</a>
+				<a class="scroll" href="#home">
+					<div class="col-md-3 w3_soulgrid">
+						<i class="fa fa-users" aria-hidden="true"></i>
+						<h3>Connect</h3>
+						<p>Connect your perfect Match</p>
+					</div>
+				</a>
+				<a class="scroll" href="#home">
+					<div class="col-md-3 w3_soulgrid">
+						<i class="fa fa-comments-o" aria-hidden="true"></i>
+						<h3>Interact</h3>
+						<p>Become a member and start Conversation</p>
+					</div>
+				</a>
+				<div class="clearfix"> </div>
+			</div>
+	</div>
+	<!-- //Find your soulmate -->
+		
+		<!-- featured profiles -->			
+			<div class="w3layouts_featured-profiles">
+				<div class="container">
+				<!-- slider -->
+				<div class="agile_featured-profiles">
+					<h2>Recommended Profiles</h2>
+							<ul id="flexiselDemo3">
+								<li>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p1.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p2.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="bride_profile.html">
+											<div class="profile-image">
+												<img src="images/p3.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p4.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="bride_profile.html">
+											<div class="profile-image">
+												<img src="images/p5.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="bride_profile.html">
+											<div class="profile-image">
+												<img src="images/p6.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p7.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="bride_profile.html">
+											<div class="profile-image">
+												<img src="images/p8.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p9.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p10.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p11.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="bride_profile.html">
+											<div class="profile-image">
+												<img src="images/p12.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p7.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="bride_profile.html">
+											<div class="profile-image">
+												<img src="images/p5.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p1.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="col-md-3 biseller-column">
+										<a href="groom_profile.html">
+											<div class="profile-image">
+												<img src="images/p2.jpg" class="img-responsive" alt="profile image">
+												<div class="agile-overlay">
+												<h4>Profile ID: 458645</h4>
+													<ul>
+														<li><span>Age / Height</span>: 26 / 5'0''</li>
+														<li><span>Caste</span>: Ipsum</li>
+														<li><span>Religion</span>: Lorem</li>
+														<li><span>Profession</span>: IT Software</li>
+														<li><span>Profile Created By</span>: Self</li>
+														<li><span>Location</span>: Semrd, 7th c, Los</li>
+													</ul>
+												</div>
+											</div>
+										</a>
+									</div>
+								</li>
+							</ul>
+					</div>   
+			</div>
+			<!-- //slider -->				
+			</div>
+			<script type="text/javascript" src="js/jquery.flexisel.js"></script><!-- flexisel-js -->	
+					<script type="text/javascript">
+						 $(window).load(function() {
+							$("#flexiselDemo3").flexisel({
+								visibleItems:1,
+								animationSpeed: 1000,
+								autoPlay: false,
+								autoPlaySpeed: 5000,    		
+								pauseOnHover: true,
+								enableResponsiveBreakpoints: true,
+								responsiveBreakpoints: { 
+									portrait: { 
+										changePoint:480,
+										visibleItems:1
+									}, 
+									landscape: { 
+										changePoint:640,
+										visibleItems:1
+									},
+									tablet: { 
+										changePoint:768,
+										visibleItems:1
+									}
+								}
+							});
+							
+						});
+					   </script>
+			<!-- //featured profiles -->		   
+					   
+	
+	<!-- Assisted Service -->
+	<div class="agile-assisted-service text-center">
+		<h4>Assisted Service</h4>
+		<p>Our Relationship Managers have helped thousands of members find their life partners.</p>
+		<a href="assisted_services.html">Know More</a>
+	</div>
+	<!-- //Assisted Service -->
+	
+	
+	<!-- Get started -->
+	<div class="w3layous-story text-center">
+		<div class="container">
+			<h4>Your can find your study mates and make new friends here!  <a class="scroll" href="#home">Get started</a></h4>
+		</div>
+	</div>
+	<!-- //Get started -->
+	
+<!-- footer -->
+<footer>
+	<div class="footer">
+		<div class="container">
+			<div class="footer-info w3-agileits-info">
+				<div class="col-md-4 address-left agileinfo">
+					<div class="footer-logo header-logo">
+						<h6>Get in Touch.</h6>
+					</div>
+					<ul>
+						<li><i class="fa fa-map-marker"></i> 123 San Sebastian, New York City USA.</li>
+						<li><i class="fa fa-phone"></i> +222 11 4444 </li>
+						<li><i class="fa fa-envelope-o"></i> <a href="mailto:example@mail.com"> mail@example.com</a></li>
+					</ul> 
+				</div>
+				<div class="col-md-8 address-right">
+					<div class="col-md-4 footer-grids">
+						<h3>Company</h3>
+						<ul>
+							<li><a href="about.html">About Us</a></li>
+							<li><a href="feedback.html">Feedback</a></li>  
+							<li><a href="help.html">Help</a></li>  
+							<li><a href="tips.html">Safety Tips</a></li>
+							<li><a href="typo.html">Typography</a></li>
+							<li><a href="icons.html">Icons Page</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4 footer-grids">
+						<h3>Quick links</h3>
+						<ul>
+							<li><a href="terms.html">Terms of use</a></li>
+							<li><a href="privacy_policy.html">Privacy Policy</a></li>
+							<li><a href="contact.html">Contact Us</a></li>
+							<li><a href="faq.html">FAQ</a></li>
+							<li><a href="sitemap.html">Sitemap</a></li>
+						</ul> 
+					</div>
+					<div class="col-md-4 footer-grids">
+						<h3>Follow Us on</h3>
+						<section class="social">
+                        <ul>
+							<li><a class="icon fb" href="#"><i class="fa fa-facebook"></i></a></li>
+							<li><a class="icon tw" href="#"><i class="fa fa-twitter"></i></a></li>	
+							<li><a class="icon gp" href="#"><i class="fa fa-google-plus"></i></a></li>
+						</ul>
+						</section>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>	
+	<div class="copy-right"> 
+		<div class="container">
+			<p>Copyright &copy; 2018.Exployers All rights reserved.></p>
+		</div>
+	</div> 
+</footer>
+<!-- //footer -->	
+<!-- menu js aim -->
+	<script src="js/jquery.menu-aim.js"> </script>
+	<script src="js/main.js"></script> <!-- Resource jQuery -->
+	<!-- //menu js aim -->
+	<!-- for bootstrap working -->
+		<script src="js/bootstrap.js"></script>
+<!-- //for bootstrap working -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+			var defaults = {
+	  			containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+	 		};
+			*/
+			
+			$().UItoTop({ easingType: 'easeOutQuart' });
+							
+		});
+	</script>
+	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	<!-- for smooth scrolling -->
+	<script type="text/javascript" src="js/move-top.js"></script>
+	<script type="text/javascript" src="js/easing.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+	</script>
+	<!-- //for smooth scrolling -->
+
+</body>
+<!-- //body -->
+</html>
+<!-- //html -->
