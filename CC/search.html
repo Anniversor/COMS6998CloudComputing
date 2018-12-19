@@ -172,37 +172,30 @@ function postToServer(){
 											          var goal_1 = document.getElementById("Goal");
 													  var idx = goal_1.selectedIndex;
 													  var goal_1 = goal_1.options[idx].innerText;
-											          var apigClient = apigClientFactory.newClient();
-											          var body = {
-																			"message": [
-																			{
-																				"type": "make_friend",
-																				"unstructured": {
-																					"email":sessionStorage.getItem("email"),
-																					"ur_email" : child.innerText.substring(7),
-																					"goal" : goal_1
-																				}
-																			}
-																			]
+														var apigClient = apigClientFactory.newClient();
+														var body = {
+																"message": [
+																{
+																	"type": "make_friend",
+																	"unstructured": {
+																		"email":sessionStorage.getItem("email"),
+																		"ur_email" : child.innerText.substring(7),
+																		"goal" : goal_1
+																	}
+																}
+															]
 													  };
-											          console.log(body)
-											          apigClient.matchPost(null, body)
-														.then(function(result){
-
+														console.log(body)
+														apigClient.matchPost(null, body)
+															.then(function(result){
 														  var res = result
-
 														  if(res == "None") {console.log(123123)}
 														  else{
 															  console.log(res)
-
 														  }
 														}).catch( function(result){
-
 														});
-                                                  }
-
-
-
+                          }
 											  };
 											  // a1.href = "groom_profile.html";
 											  var d2 = document.createElement("div");
@@ -219,14 +212,14 @@ function postToServer(){
 											  var ul = document.createElement("ul")
 											  for(x in res[i]){
 											      if(x!="email") {
-                                                      var span = document.createElement('span')
-                                                      span.innerHTML = x
-                                                      var li = document.createElement("li")
-                                                      li.className = "nbs-flexisel-item"
-                                                      li.appendChild(span)
-                                                      li.append(": " + res[i][x])
-                                                      ul.appendChild(li)
-                                                  }
+															var span = document.createElement('span')
+															span.innerHTML = x
+															var li = document.createElement("li")
+															li.className = "nbs-flexisel-item"
+															li.appendChild(span)
+															li.append(": " + res[i][x])
+															ul.appendChild(li)
+													}
 											  }
 											  d3.appendChild(h4);
 											  d3.appendChild(ul)

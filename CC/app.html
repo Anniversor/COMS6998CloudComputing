@@ -20,7 +20,135 @@
 <meta name="keywords" content="Match Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="apigClient.js"></script>
+<!-- nav smooth scroll -->
 <!--//meta data-->
+<script>window.onload = function(){
+    var goals;
+    var values;
+    var apigClient = apigClientFactory.newClient();
+    var body = {
+                "messages": [
+                {
+                    "type": "get",
+                    "unstructured": {
+                    "id": "string",
+                    "email":sessionStorage.getItem("email")
+                    }
+                    }
+                ]
+            };
+    apigClient.profilePost(null, body)
+        .then(function(result){
+            var res = result["data"]["Item"];
+            if(res == "None") {console.log(123123)}
+            else{
+            let status = res['goals']["L"][0]["M"];
+            i = 1;
+            for(x in status){
+                if(status[x]["S"]!="null"){
+                    let email = status[x]["S"];
+                    var body = {
+                            "messages": [
+                            {
+                                "type": "get",
+                                "unstructured": {
+                                "id": "string",
+                                "email":email
+                                }
+                            }
+                        ]
+                    };
+                    apigClient.profilePost(null, body)
+                        .then(function(result){
+                            let res = result["data"]["Item"];
+                            console.log(res)
+                            let pic = document.getElementById("flexiselDemo3");
+                            var d1 = document.createElement("div");
+                            d1.className = "col-md-3 biseller-column";
+                            var a1 = document.createElement("a");
+                            a1.id = "click" + i
+                            var d2 = document.createElement("div");
+                            d2.className = "profile-image";
+                            var img = document.createElement("img");
+                            img.src=res["img"]
+                            img.className="img-responsive";
+                            img.alt="profile image";
+                            var d3 = document.createElement("div");
+                            d3.className = "agile-overlay";
+                            var h4 = document.createElement("h4")
+                            h4.innerHTML = "email: " + res["email"]["S"];
+                            h4.id = "ur_email" + i
+                            var ul = document.createElement("ul")
+                            var span = document.createElement('span')
+                            span.innerHTML = "goal"
+                            var li = document.createElement("li")
+                            li.className = "nbs-flexisel-item"
+                            li.appendChild(span)
+                            li.append(": " + x)
+                            ul.appendChild(li)
+                            console.log(res["schedule"]["L"][0]["S"])
+                            for(n in res){
+                                if(n=="gender" || n=="country" || n=="age") {
+                                    var span = document.createElement('span')
+                                    span.innerHTML = n
+                                    var li = document.createElement("li")
+                                    li.className = "nbs-flexisel-item"
+                                    
+                                    li.appendChild(span)
+                                    li.append(": " + res[n]["S"])
+                                    ul.appendChild(li)
+                                }
+                                else if (n=="schedule"){
+                                    console.log(res[n]["L"].length)
+                                    let ls = res[n]["L"];
+                                    var span = document.createElement('span')
+                                    span.innerHTML = n
+                                    var li = document.createElement("li")
+                                    li.className = "nbs-flexisel-item"
+                                    li.appendChild(span)
+                                    li.append(": " + res[n]["L"][0]["S"])
+                                    ul.appendChild(li)
+                                    // for (j =0;j<= ls.length;j++){
+                                    //     var span = document.createElement('span')
+                                    //     span.innerHTML = n
+                                    //     var li = document.createElement("li")
+                                    //     li.className = "nbs-flexisel-item"
+                                    //     li.appendChild(span)
+                                    //     li.append(": " + ls[j]["S"])
+                                    //     ul.appendChild(li)
+                                    // }
+                                }
+                                d3.appendChild(h4);
+                                d3.appendChild(ul)
+                                d2.appendChild(img);
+                                d2.appendChild(d3);
+                                a1.appendChild(d2);
+                                d1.appendChild(a1);
+                                pic.appendChild(d1);
+                            }
+                        }).catch( function(result){
+
+                    });
+                }
+                i++;
+            }
+            }
+        }).catch( function(result){});
+
+        }
+</script>
+
 
 <!-- nav smooth scroll -->
 <script>
@@ -37,10 +165,7 @@ $(document).ready(function(){
     );
 });
 </script>
-<!-- //nav smooth scroll -->
 </head>
-<!-- //head -->
-<!-- body -->
 <body>
 	<!-- inner banner -->	
 	<div class="w3layouts-inner-banner">
