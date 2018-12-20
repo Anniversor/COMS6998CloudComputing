@@ -75,9 +75,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             console.log(res)
                             let pic = document.getElementById("flexiselDemo3");
                             var d1 = document.createElement("div");
-                            d1.className = "col-md-3 biseller-column";
+                            d1.className = "col-md-3 biseller-column matches";
                             var a1 = document.createElement("a");
-                            a1.id = "click" + i
+                            a1.className = "matches"
+                            a1.name = res["email"]["S"]
                             var d2 = document.createElement("div");
                             d2.className = "profile-image";
                             var img = document.createElement("img");
@@ -149,7 +150,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
 </script>
 
-
+<script>
+    $(document).on("click","a.matches",function(){
+        console.log("nima")
+        let host = sessionStorage.getItem("email")
+        let partner = $(this).attr("name")
+        let img = $(".img-responsive").attr("src")
+        sessionStorage.setItem("partner_img", img)
+        sessionStorage.setItem("partner",partner)
+        console.log(partner)
+        window.location.href= "chat.html";
+    });
+</script>
 <!-- nav smooth scroll -->
 <script>
 $(document).ready(function(){
@@ -197,66 +209,7 @@ $(document).ready(function(){
   </div>
 
 	
-<!-- footer -->
-<footer>
-	<div class="footer">
-		<div class="container">
-			<div class="footer-info w3-agileits-info">
-				<div class="col-md-4 address-left agileinfo">
-					<div class="footer-logo header-logo">
-						<h6>Get in Touch.</h6>
-					</div>
-					<ul>
-						<li><i class="fa fa-map-marker"></i> 123 San Sebastian, New York City USA.</li>
-						<li><i class="fa fa-mobile"></i> 333 222 3333 </li>
-						<li><i class="fa fa-phone"></i> +222 11 4444 </li>
-						<li><i class="fa fa-envelope-o"></i> <a href="mailto:example@mail.com"> mail@example.com</a></li>
-					</ul> 
-				</div>
-				<div class="col-md-8 address-right">
-					<div class="col-md-4 footer-grids">
-						<h3>Company</h3>
-						<ul>
-							<li><a href="about.html">About Us</a></li>
-							<li><a href="feedback.html">Feedback</a></li>  
-							<li><a href="help.html">Help</a></li>  
-							<li><a href="tips.html">Safety Tips</a></li>
-							<li><a href="typo.html">Typography</a></li>
-							<li><a href="icons.html">Icons Page</a></li>
-						</ul>
-					</div>
-					<div class="col-md-4 footer-grids">
-						<h3>Quick links</h3>
-						<ul>
-							<li><a href="terms.html">Terms of use</a></li>
-							<li><a href="privacy_policy.html">Privacy Policy</a></li>
-							<li><a href="contact.html">Contact Us</a></li>
-							<li><a href="faq.html">FAQ</a></li>
-							<li><a href="sitemap.html">Sitemap</a></li>
-						</ul> 
-					</div>
-					<div class="col-md-4 footer-grids">
-						<h3>Follow Us on</h3>
-						<section class="social">
-                        <ul>
-							<li><a class="icon fb" href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a class="icon tw" href="#"><i class="fa fa-twitter"></i></a></li>	
-							<li><a class="icon gp" href="#"><i class="fa fa-google-plus"></i></a></li>
-						</ul>
-						</section>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-		</div>
-	</div>	
-	<div class="copy-right"> 
-		<div class="container">
-			<p>Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://www.17sucai.com/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
-		</div>
-	</div> 
-</footer>
+
 <!-- //footer -->	
 <!-- menu js aim -->
 	<script src="js/jquery.menu-aim.js"> </script>
